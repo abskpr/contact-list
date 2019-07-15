@@ -1,0 +1,71 @@
+<template>
+    <lightning-card
+        title="Contacts List"
+        icon-name="custom:custom15"
+        style="height: fit-content"
+    >
+        <div class="slds-card__body_inner">
+            <template if:true={contacts.data}>
+                <lightning-layout pull-to-boundary="small">
+                    <lightning-layout-item
+                        size="7"
+                        class="slds-p-around_x-small"
+                    >
+                        <lightning-input
+                            type="search"
+                            onchange={handleContactSearch}
+                            variant="label-hidden"
+                            class="slds-m-bottom_small"
+                            label="Search"
+                            placeholder="Search"
+                            value={searchTerm}
+                        ></lightning-input>
+                        <div class="slds-scrollable_y" style="height:300px">
+                            <template
+                                for:each={contacts.data}
+                                for:item="contact"
+                            >
+                                <div
+                                    class="slds-p-top_small"
+                                    key={contact.Id}
+                                    onclick={handleContactClick}
+                                    id={contact.Id}
+                                >
+                                    <ul>
+                                        <li class="slds-item">
+                                            {contact.Name}
+                                        </li>
+                                        <li class="slds-item">
+                                            {contact.Phone}
+                                        </li>
+                                    </ul>
+
+                                    <div class="slds-p-top_small">
+                                        <hr>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item
+                        size="5"
+                        class="slds-p-around_large contact-card"
+                    >
+                        <template if:true={selectedContact}>
+                            <h1 class="contact-name">{selectedContact.Name}</h1>
+                            <template if:true={selectedContact.Account}>
+                                <h2>{selectedContact.Account.Name}</h2>
+                            </template>
+                            <h2>{selectedContact.Title}</h2>
+                            <h3>{selectedContact.Phone}</h3>
+                            <h3>{selectedContact.Fax}</h3>
+                        </template>
+                        <template if:false={selectedContact}>
+                            <h1>Select a Contact</h1>
+                        </template>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+        </div>
+    </lightning-card>
+</template>
